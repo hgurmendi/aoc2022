@@ -10,10 +10,6 @@ function parseLine(line: string): Buffer {
   return Array.from(line);
 }
 
-function parseMultipleInputs(input: string): Buffer[] {
-  return input.split("\n").map(parseLine);
-}
-
 function isStartOfPacketMarker(buf: Buffer): boolean {
   return new Set(buf).size === START_OF_PACKET_MARKER_SIZE;
 }
@@ -48,24 +44,16 @@ function firstCharAfterMarker(
   return -1;
 }
 
-function testPart1(inputs: string): number[] {
-  const testBuffers = parseMultipleInputs(testInputs);
-
-  return testBuffers.map((buf) =>
-    firstCharAfterMarker(
-      buf,
-      isStartOfPacketMarker,
-      START_OF_PACKET_MARKER_SIZE
-    )
-  );
-}
-
 function part1(input: string): number {
   return firstCharAfterMarker(
     parseLine(input),
     isStartOfPacketMarker,
     START_OF_PACKET_MARKER_SIZE
   );
+}
+
+function testPart1(inputs: string): number[] {
+  return inputs.split("\n").map(part1);
 }
 
 console.log("test part 1");
@@ -78,24 +66,16 @@ console.log(part1(realInput));
 
 // part 2
 
-function testPart2(inputs: string): number[] {
-  const testBuffers = parseMultipleInputs(testInputs);
-
-  return testBuffers.map((buf) =>
-    firstCharAfterMarker(
-      buf,
-      isStartOfMessageMarker,
-      START_OF_MESSAGE_MARKER_SIZE
-    )
-  );
-}
-
 function part2(input: string): number {
   return firstCharAfterMarker(
     parseLine(input),
     isStartOfMessageMarker,
     START_OF_MESSAGE_MARKER_SIZE
   );
+}
+
+function testPart2(inputs: string): number[] {
+  return inputs.split("\n").map(part2);
 }
 
 console.log("test part 2");
